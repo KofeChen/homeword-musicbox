@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>music</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1460824_a3363r14ggg.css">
+</head>
+<body>
+  <div class="bgd"></div>
+  <main>
+    <div class="music-box clearfix">
+      <div class="control">
+        <div class="img"></div>
+        <div class="action1">
+          <span class="iconfont icon-love"><span>喜欢</span></span>
+          <span class="iconfont icon-download"><span>下载</span></span>
+          <span class="iconfont icon-share"><span>分享</span></span>
+        </div>
+      </div>
+  
+      <div class="info">
+        <div class="detail">
+          <h2>再也没有</h2>
+          <p>歌手：汪峰</p>
+        </div>
+        <div class="lyrics">
+每天都没有着存在
+</br>
+不知道要做些什么
+</br>
+曾经的像流沙滑去
+</br>
+点点滴滴我舍不得还你
+</br>
+我在走着 凌晨的半夜里
+</br>
+幽静的月光照着我的身影
+</br>
+就像个找不到家的baby
+</br>
+手机里再没有的你
+</br>
+我再也没有对你生气
+</br>
+我再也没有对你的秘密
+</br>
+我决定我再也不会爱你
+</br>
+因为你心已不在这里
+</br>
+已不在这里
+</br>
+每天都没有着存在
+</br>
+不知道要做些什么
+</br>
+曾经的像流沙滑去
+</br>
+点点滴滴我舍不得还你
+</br>
+我再也没有对你生气
+</br>
+我再也没有对你的秘密
+</br>
+我决定我再也不会爱你
+</br>
+因为你心已不在这里
+</br>
+当我看到你的眼神 决定不再爱你
+</br>
+也许这个爱情太深 只能无声离去
+</br>
+遮风挡雨 变成沉默无语
+</br>
+简单的一句话也会让你哭泣
+</br>
+要怎么样找到你的距离
+</br>
+疯狂的恨你而又舍不得你
+</br>
+已经迷失了那个会爱你的自己
+</br>
+一切变得毫无意义 再也不会爱你
+</br>
+我再也没有对你生气
+</br>
+我再也没有对你的秘密
+</br>
+我决定我再也不会爱你
+</br>
+因为你心已不在这里
+</br>
+我再也没有对你生气
+</br>
+我再也没有对你的秘密
+</br>
+我决定我再也不会爱你
+</br>
+因为你心已不在这里
+</br>
+已不在这里
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="action2">
+      <span class="iconfont icon-last"></span>
+      <span class="iconfont icon-play"></span>
+      <span class="iconfont icon-next"></span>
+    </div>
+    <div class="progress">
+      <div class="current"></div>
+    </div>
+    <span class="time">00:00</span>
+  </footer>
+
+  <script>
+    function $(selector) {
+      return document.querySelector(selector)
+    }
+
+    function $$(selector) {
+      return document.querySelectorAll(selector)
+    }
+    
+    var clock = null
+    var music = new Audio()
+    music.src = 'https://kofechen.github.io/MusicBox/music/%E6%B1%AA%E5%B3%B0-%E5%86%8D%E4%B9%9F%E6%B2%A1%E6%9C%89.mp3'
+
+    $$('.action2 .iconfont')[1].onclick = function() {
+      let play = $$('.action2 .iconfont')[1]
+      if (music.paused) {
+        music.play()
+        play.classList.remove('icon-play')
+        play.classList.add('icon-pause')
+      } else {
+        music.pause()
+        play.classList.remove('icon-pause')
+        play.classList.add('icon-play')
+      }
+    }
+
+    $('.progress').onclick = function(e) {
+      console.log(e.offsetX)
+      let percent = e.offsetX / parseInt(getComputedStyle(this).width)
+      $('.progress .current').style.width = percent * 100 + '%'
+      music.currentTime = music.duration * percent
+    }
+
+    music.onplay = function() {
+      clock = setInterval(function() {
+        loadTime()
+        loadProgress()
+      }, 1000)
+    }
+
+    music.onpause = function() {
+      clearInterval(clock)
+    }
+
+    function loadTime() {
+      let time = music.currentTime
+        let sec = Math.floor(time%60) + ''
+        let min = Math.floor(time/60)
+        if (sec.length === 1) {
+          sec = '0' + sec
+        }
+        $('.time').innerText = '0'+ min + ':' + sec
+    }
+
+    function loadProgress() {
+      let percent = music.currentTime / music.duration
+      percent = percent*100
+      $('.current').style.width = percent + '%'
+    }
+  </script>
+</body>
+</html>
